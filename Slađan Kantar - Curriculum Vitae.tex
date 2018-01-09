@@ -1,0 +1,366 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       Curriculum Vitae       %
+% by Sladjan 'SKantar' Kantar  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt]{article}
+
+%%%%%%%%%%%%%%%%%%%%
+% Loading packages %
+%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[margin=15mm]{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[croatian]{babel}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{epstopdf}
+
+% Any additional packages to be loaded here
+
+%%%%%%%%%%%%%%%%%
+% Package setup %
+%%%%%%%%%%%%%%%%%
+
+\setlist{nosep}
+\usetikzlibrary{arrows,decorations,positioning}
+
+% Any further package setup should be done here
+
+%%%%%%%%%%%%%%
+% Page setup %
+%%%%%%%%%%%%%%
+
+% Discourage widows and orphans
+\raggedbottom  
+\raggedright
+
+% Remove separations
+\setlength{\parindent}{0pt}
+\setlength{\itemsep}{0pt}
+
+% Defining the layout of tabular columns
+\newcolumntype{L}{>{\raggedleft}p{0.14\textwidth}}
+\newcolumntype{D}{p{0.82\textwidth}}
+
+% Any further page setup commands should be placed here
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom colour definitions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% The lightgray colour is used as the rule colour 
+% for the vertical delimiter, as well as the fill 
+% colour of "empty" circles and the timeline
+\definecolor{lightgray}{gray}{0.8}
+
+% "maincolour" is the main colour of the CV; used for all
+% headings in the document, keyword boxes, etc.
+% Its default value is "Midnight Blue" (#191970)
+\definecolor{maincolour}{HTML}{191970}
+
+% Any further colour definitions should be placed here
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom symbol definitions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% C++ logo (better-looking than outright typing C++)
+\def\CC{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+
+% "Fat Tilde" symbol, used as the main bullet
+% when the timeline isn't used
+\def\mysim{{\textcolor{maincolour}{$\LARGE\boldsymbol\sim$}}}
+
+% Any further custom symbols should be defined here
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom command definitions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Custom rules: thick horizontal, thin horizontal, vertical
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\newcommand{\SRule}{\rule{\linewidth}{0.2pt}}
+\newcommand{\VRule}{\color{lightgray}\vrule width 0.5pt}
+
+% "Divider" that comes after each sub-heading
+\newcommand{\divider}{\vskip-7pt\HRule\hfill\vskip-1.1em\SRule\vskip1em}
+
+% This is the command used to produce each sub-heading.
+% Usage: \heading{Heading text}.
+\newcommand{\heading}[1]{%
+{\LARGE \bf \textcolor{maincolour}{#1}}
+\textcolor{maincolour}{\divider}
+}
+
+% This is the command used to produce the "timeline" bullet.
+% Usage: \fillbar{x}{y}{Date}, where x and y are floating-point
+% numbers between 0 and 2.6. Precondition: x < y.
+\newcommand{\fillbar}[3]{%
+\begin{tikzpicture}
+	\draw[thick, maincolour] (0, 0) rectangle (2.6, 0.25);
+	\fill[lightgray] (0, 0) rectangle (2.6, 0.25);
+	\fill[maincolour] (#1, 0) rectangle (#2, 0.25);
+\end{tikzpicture} \\ #3
+}
+
+% This is the command used to produce the "fat tilde" bullet.
+% Usage: \mytilde{Date}
+\newcommand{\mytilde}[1]{\mysim \\ #1}
+
+% This is the command used to produce the "x stars out of y" bullet.
+% Usage: \stars{x}{y}{subtext}.
+\newcount\starid
+\newcommand{\stars}[3]{%
+{\starid=0
+\loop
+	\advance\starid by 1
+	\ifnum\starid>#1 \textcolor{lightgray}{\!\textbullet}
+	\else \textcolor{maincolour}{\!\textbullet}
+	\fi
+	\ifnum\starid<#2
+\repeat} \\ #3
+}
+
+% This is the command used to produce the keyword box.
+% Usage: \keywordbox{keyword}.
+\newcommand{\keywordbox}[1]{%
+\begin{tikzpicture}
+\node[node distance=0.5cm,rounded corners=2pt, draw=maincolour, fill=maincolour, text=white, minimum height=3mm, text height=1.6ex, text depth=0.3ex, inner sep=0.5ex] at (0,0){\footnotesize\tt\bfseries #1};
+\end{tikzpicture}
+}
+
+% This is the wrapper for the table used in each section.
+% Separate columns by & and rows by \\.
+% Usage: \cvtable{a & b \\ c & d \\ e & f}.
+\newcommand{\cvtable}[1]{%
+\begin{tabular}{L!{\VRule}D}#1\end{tabular}}
+
+% This is the command used to produce the main item text.
+% Usage: \mainitem{Name}{Title}{City1}{City2}.
+\newcommand{\mainitem}[4]{\textbf{#1} \hfill #3 \newline \emph{#2} \hfill #4}
+
+% This is the command used to produce a publication item.
+% Usage: \pubitem{Title}{Authors}{Journal}.
+\newcommand{\pubitem}[3]{\textbf{#1} \newline \textsc{#2} \newline \emph{#3}}
+
+% These commands are used to wrap sub-items.
+% Usage: 
+% \sitemize{
+%   \sitem Item 
+%   \sitem Item2
+% }
+\newcommand{\sitemize}[1]{%
+	\vspace{0.5em}
+	\begin{itemize}
+		#1	
+	\end{itemize}
+}
+\newcommand{\sitem}{\item[$\sim$]}
+
+% Any further custom commands should be defined here
+
+%%%%%%%%%%%%%%%%%%%%%
+% START OF DOCUMENT %
+%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% Avoid printing page numbers
+\pagestyle{empty}
+
+%%%%%%%%%%%%%%%%%
+% MAJOR HEADING %
+%%%%%%%%%%%%%%%%%
+
+\begin{tikzpicture}[remember picture, overlay, transform shape]
+\node[anchor=north west, rectangle, text width=\paperwidth, text centered, text height=3.75em, text depth=5.5em, fill=maincolour] at (current page.north west) 
+{\textcolor{white}{
+	% Name
+	{\Huge \bf Sla\dj{}an Kantar} \\[0.5em]
+	% Tagline 
+	{\Large PhD Student in Electrical Engineering and Computer Science } \\[0.25em] 
+	% Contact data
+	{\begin{tabular}{c c c c} 	
+	{\tt skantar12@gmail.com} & \textbullet 
+	& +381 (0)61 115 1545
+	\end{tabular}}  \\[0.25em]
+	{\begin{tabular}{r c r c r c} 
+	\includegraphics[width=1em]{assets/search-homepage.eps} & {\href{http://skantar.com}{\tt skantar.com}} & \includegraphics[width=1em]{assets/GitHub-Mark.eps} & 
+	{\href{https://github.com/SKantar}{\tt github.com/SKantar}} & \includegraphics[width=1em]{assets/In-White-2in-TM.eps} & {\href{https://linkedin.com/in/skantar}{\tt linkedin.com/in/skantar}}
+	\end{tabular}}
+	}
+};
+\end{tikzpicture}
+
+\vspace{6em}
+
+%%%%%%%%%%%%%
+% EDUCATION %
+%%%%%%%%%%%%%
+
+\heading{Education}
+
+\cvtable{%
+
+\fillbar{2.52}{2.6}{2017--present} & \mainitem{The Faculty of Computer Science, University UNION} {Doctor of Philosophy (PhD), Electrical Engineering and Computer Science }{Belgrade, Serbia}{} 
+\sitemize{%
+} \vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\fillbar{2.24}{2.52}{2016--2017} & \mainitem{The Faculty of Computer Science, University UNION} {Master of Science (MS), Computer Science}{Belgrade, Serbia}{} 
+	
+\sitemize{%
+	\sitem GPA: 10.00/10.00
+	\sitem Final-year dissertation: \emph{``Implementation of the control algorithm for Kondo robot \hfill \break under Linux operating system''} (mark 10/10)
+}\vspace{-\baselineskip}\mbox{}	
+\\[5pt] % Use consistent spacing to delimit items
+
+\fillbar{1.12}{2.24}{2012--2016} & \mainitem{The Faculty of Computer Science, University UNION} {Bachelor of Science (BS), Computer Science}{Belgrade, Serbia}{} 
+	
+\sitemize{%
+	\sitem GPA: 10.00/10.00
+	\sitem Final-year dissertation: \emph{``Python module for automatic testing of programming \hfill \break assignments''} (mark 10/10)
+}\vspace{-\baselineskip}\mbox{}	
+\\[5pt] % Use consistent spacing to delimit items
+
+\fillbar{0}{1.12}{2008--2012} & \mainitem{Elektrotehni\v{c}ka \v{s}kola}{Electrotechnical School}{Aran\dj{}elovac, Serbia}{}
+
+\sitemize{%
+	\sitem GPA: 5.00/5.00
+	\sitem Final-year project: \emph{``Graph algorithms with MFC application for demonstration''}
+}\vspace{-\baselineskip}\mbox{} % To remove extra space after the subitems
+}
+
+\vspace{1.9em}
+
+%%%%%%%%%%%%%%%%%%%
+% WORK EXPERIENCE %
+%%%%%%%%%%%%%%%%%%%
+
+\heading{Work Experience}
+
+\cvtable{%
+
+\fillbar{1.96}{2.6}{2015--present} & \mainitem{Modoolar (previously NetBox)}{Software Engineer, Scrum Master}{Belgrade, Serbia}{}
+\sitemize{%
+	\sitem As a team leader of team working on customer projects, my role consider all the technical aspects of the project's implementation : Analyzing customer needs, Estimating development time,
+	Developing and maintaining custom features, Providing technical support, Developing internal tools
+} \vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\fillbar{1.68}{2.6}{2014--present} & \mainitem{The Faculty of Computer Science, University UNION}{Teaching Assistant (previously Teaching Associate)}{Belgrade, Serbia}{}
+\sitemize{%
+	\sitem Subjects: Introduction to Programming, Compiler Construction, Web Programming
+} \vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\fillbar{1.4}{2.24}{2013--2016} & \mainitem{Datamaid}{Co-founder and Software Engineer}{Sofia, Bulgaria}{}
+\sitemize{%
+	\sitem Nominated as bast startup for 2013 year
+	\sitem Develop complete web part (based on Google Cloud Platform): Data Organization, RESTful API, Facebook integration, Twitter integration, Blog sharing support
+} \vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\fillbar{1.96}{2.30}{2015 -- 2016} & \mainitem{BStorm doo}{Lead Web Developer}{Belgrade, Serbia}{}
+\sitemize{%
+	\sitem Laravel/PHP | Develop mobile applications
+	\sitem Data architecture, Web portal and API for several mobile applications
+} \vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+}
+
+\vspace{1.9em}
+
+%%%%%%%%%%%%%%%%
+% PUBLICATIONS %
+%%%%%%%%%%%%%%%%
+
+\heading{Publications}
+
+\cvtable{%
+
+\mytilde{June 2017} & \pubitem{Classification Algorithms for the Detection of the Primary Tumor Based \hfill \break on Microscopic Images of Bone Metastases }{\textbf{Kantar, S.}, Plu\v{s}koski, A., Ciganovi\'{c}, I. and Vasilevi\'{c}, J.}{5$^\text{th}$  International Conference of Advanced Computer Science and Information Technology (ACSIT 2017)}
+\\[5pt]
+
+\mytilde{June 2017} & \pubitem{Implementation of the control algorithm for the 'buggy' mobile robot \hfill \break via application of infrared distance measuring sensors}{\textbf{Kantar, S.} and Jovanovi\'{c}, M.}{4$^\text{th}$ International Conference on Electrical, Electronic and Computing Engineering \hfill \break(IcETRAN 2017)}
+\\[5pt]
+}
+
+\vspace{1.9em}
+
+%%%%%%%%%%%%%%%%%%%%
+% HONOURS & AWARDS %
+%%%%%%%%%%%%%%%%%%%%
+
+\heading{Honours \& Awards}
+
+\cvtable{%
+
+\mytilde{2016, 2017} & \mainitem{The best student of the generation}{The Faculty of Computer Science, University UNION}{Belgrade, Serbia}{}
+\sitemize{%
+	\sitem Academic studies, Master studies
+}\vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\mytilde{2012-present} & \mainitem{Scholarship}{The Faculty of Computer Science, University UNION}{Belgrade, Serbia}{}
+\sitemize{%
+	\sitem Graduate and Postgraduate studies
+}\vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\mytilde{January 2016} & \mainitem{Dositeja award}{Fund for Young Talents of Serbia}{Belgrade, Serbia}{}	
+\sitemize{%
+	\sitem Awarded to high-school students for great performance at acknowledged national and international competitions during the 2011/12 school year
+}\vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\mytilde{June 2012} & \mainitem{The best student of the generation}{Electrotechnical School}{Aran\dj{}elovac, Serbiaa}{}
+\sitemize{%
+	\sitem Awarded for the best Informatics-related project in the school's 2012 generation
+}\vspace{-\baselineskip}\mbox{}
+\\[5pt]
+
+\mytilde{May 2012} & \mainitem{Best student in town}{Aran\dj{}elovac}{Aran\dj{}elovac, Serbia}{}
+\\[5pt]
+
+\mytilde{2008--2012} & \mainitem{Serbian High School Competition Awards}{Mathematical and Electrotehnical Societies of Serbia}{Belgrade, Serbia}{}
+
+\sitemize{%
+	\sitem Serbian Olympiad in Informatics - participation (May 2012)
+	\sitem National Competition in Informatics - Third Prize (April 2012)
+	\sitem National Competition in Electronic - Third Prize (April 2011)
+	\sitem National Competition in Electrotehnic - Honourable Mention (April 2010)
+}\vspace{-\baselineskip}\mbox{}
+}
+
+\vspace{1.9em}
+
+%%%%%%%%%%
+% SKILLS %
+%%%%%%%%%%
+
+\heading{Skills}
+
+\cvtable{%
+
+\stars{5}{5}{Proficient} & Python, C/\CC, Java, PHP, SQL, Odoo framework, ERP functional knowlage,\newline \LaTeX, \texttt{git}, \textsc{Unix} Algorithms, Data Structures, Teaching 
+\\[5pt]
+
+\stars{4}{5}{Experienced} & Laravel framework, \texttt{vim}, Theoretical Computer Science \newline Theoretical Algorithms and Languanges, Compilers constuction
+\\[5pt]
+
+\stars{3}{5}{Skilled} & Probability, HTML, CSS, JS, Kernel Programming (Linux)\newline Java Technologies for Web Applications, Speech Recognition
+}
+
+%%%%%%%%%%%%%%%%%%%
+% END OF DOCUMENT %
+%%%%%%%%%%%%%%%%%%%
+
+\end{document}
